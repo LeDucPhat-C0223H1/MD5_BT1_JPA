@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BT1-JPA-CRUD</title>
+</head>
+<body>
+<nav id="sidebar" class="sidebar js-sidebar" th:fragment="sidebar(view)">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/admin">
+            <span class="align-middle">ADMIN</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Pages
+            </li>
+            <li th:class="|sidebar-item ${view=='dashboard'?'active':''}|">
+                <a class="sidebar-link" href="/admin/dashboard">
+                    <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='category'||view=='category_add'||view=='category_edit'?'active':''}|">
+                <a class="sidebar-link" href="/admin/category">
+                    <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Category</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='product'?'active':''}|">
+                <a class="sidebar-link" href="/admin/product">
+                    <i class="align-middle" data-feather="square"></i> <span class="align-middle">Product</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='user'?'active':''}|">
+                <a class="sidebar-link" href="/admin/user">
+                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand navbar-light navbar-bg" th:fragment="main">
+    <a class="sidebar-toggle js-sidebar-toggle mx-2">
+        <i class="hamburger align-self-center"></i>
+    </a>
+
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav navbar-align">
+
+            <li class="nav-item dropdown">
+                <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
+                   data-bs-toggle="dropdown">
+                    <i class="align-middle" data-feather="settings"></i>
+                </a>
+
+                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+                   data-bs-toggle="dropdown">
+                    <th:block th:if="${session.userLogin}==null">
+                        <img src="data:image/jpeg;base64,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"
+                             class="avatar img-fluid rounded me-1" alt=""
+                        />
+                        <span class="text-dark">BBen2808</span>
+                    </th:block>
+                    <th:block th:unless="${session.userLogin}==null">
+                        <img th:src="${session.userLogin.avatarUrl}" class="avatar img-fluid rounded me-1" alt=""/>
+                        <span class="text-dark" th:text="|Admin ${session.userLogin.fullName}|"></span>
+                    </th:block>
+
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i>
+                        Profile</a>
+                    <a class="dropdown-item" href="#"><i class="align-middle me-1"
+                                                         data-feather="pie-chart"></i>
+                        Change Pass</a>
+
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/logout" onclick="return confirm('Bạn thực sự muốn đăng xuất ?')">Log out</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<th:block th:fragment="js">
+    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
+            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+            gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
+            gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+            // Line chart
+            new Chart(document.getElementById("chartjs-dashboard-line"), {
+                type: "line",
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Sales ($)",
+                        fill: true,
+                        backgroundColor: gradient,
+                        borderColor: window.theme.primary,
+                        data: [
+                            2115,
+                            1562,
+                            1584,
+                            1892,
+                            1587,
+                            1923,
+                            2566,
+                            2448,
+                            2805,
+                            3438,
+                            2917,
+                            3327
+                        ]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        intersect: false
+                    },
+                    hover: {
+                        intersect: true
+                    },
+                    plugins: {
+                        filler: {
+                            propagate: false
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            reverse: true,
+                            gridLines: {
+                                color: "rgba(0,0,0,0.0)"
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1000
+                            },
+                            display: true,
+                            borderDash: [3, 3],
+                            gridLines: {
+                                color: "rgba(0,0,0,0.0)"
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Pie chart
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+                type: "pie",
+                data: {
+                    labels: ["Chrome", "Firefox", "IE"],
+                    datasets: [{
+                        data: [4306, 3801, 1689],
+                        backgroundColor: [
+                            window.theme.primary,
+                            window.theme.warning,
+                            window.theme.danger
+                        ],
+                        borderWidth: 5
+                    }]
+                },
+                options: {
+                    responsive: !window.MSInputMethodContext,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    cutoutPercentage: 75
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Bar chart
+            new Chart(document.getElementById("chartjs-dashboard-bar"), {
+                type: "bar",
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "This year",
+                        backgroundColor: window.theme.primary,
+                        borderColor: window.theme.primary,
+                        hoverBackgroundColor: window.theme.primary,
+                        hoverBorderColor: window.theme.primary,
+                        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+                        barPercentage: .75,
+                        categoryPercentage: .5
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            stacked: false,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }],
+                        xAxes: [{
+                            stacked: false,
+                            gridLines: {
+                                color: "transparent"
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var markers = [{
+                coords: [31.230391, 121.473701],
+                name: "Shanghai"
+            },
+                {
+                    coords: [28.704060, 77.102493],
+                    name: "Delhi"
+                },
+                {
+                    coords: [6.524379, 3.379206],
+                    name: "Lagos"
+                },
+                {
+                    coords: [35.689487, 139.691711],
+                    name: "Tokyo"
+                },
+                {
+                    coords: [23.129110, 113.264381],
+                    name: "Guangzhou"
+                },
+                {
+                    coords: [40.7127837, -74.0059413],
+                    name: "New York"
+                },
+                {
+                    coords: [34.052235, -118.243683],
+                    name: "Los Angeles"
+                },
+                {
+                    coords: [41.878113, -87.629799],
+                    name: "Chicago"
+                },
+                {
+                    coords: [51.507351, -0.127758],
+                    name: "London"
+                },
+                {
+                    coords: [40.416775, -3.703790],
+                    name: "Madrid "
+                }
+            ];
+            var map = new jsVectorMap({
+                map: "world",
+                selector: "#world_map",
+                zoomButtons: true,
+                markers: markers,
+                markerStyle: {
+                    initial: {
+                        r: 9,
+                        strokeWidth: 7,
+                        stokeOpacity: .4,
+                        fill: window.theme.primary
+                    },
+                    hover: {
+                        fill: window.theme.primary,
+                        stroke: window.theme.primary
+                    }
+                },
+                zoomOnScroll: false
+            });
+            window.addEventListener("resize", () => {
+                map.updateSize();
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var date = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
+            var defaultDate = date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
+            document.getElementById("datetimepicker-dashboard").flatpickr({
+                inline: true,
+                prevArrow: "<span title=\"Previous month\">&laquo;</span>",
+                nextArrow: "<span title=\"Next month\">&raquo;</span>",
+                defaultDate: defaultDate
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
+https://firebasestorage.googleapis.com/v0/b/project-final-module4.appspot.com/o/admin-default-%20avatar.jpg?alt=media&token=c0980bce-89a2-48e5-a92f-a428735f4e8f

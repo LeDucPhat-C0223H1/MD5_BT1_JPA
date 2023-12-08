@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ben Juice</title>
+</head>
+<body>
+
+    <main class="content" th:fragment="category(categories)">
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Category Management</h3>
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="/category/add">
+                            <button  class="btn btn-success" >+ Add new Category</button>
+                        </a>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 fst-italic" type="search"
+                                   placeholder="Enter category's name... "
+                                   aria-label="Search"
+                                   name="query"
+                            >
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>Category ID</th>
+                        <th>Name</th>
+                        <th>Descripttion</th>
+                        <th>Status</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                     <tr th:each="c, loop : ${categories}">
+                        <td th:text="${c.id}"></td>
+                        <td th:text="${c.name}">Category 1</td>
+                        <td th:text="${c.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
+                        <td th:text="${c.status ? 'Active' : 'Not Active'}">False</td>
+                        <td>
+                            <a th:href="@{/category/edit/{id}(id=${c.id})}" class="btn btn-warning">Edit</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/category/delete/{id}(id=${c.id})}"
+                               onclick="return confirm('Bạn thực sự muốn xóa danh mục này ?')"
+                               class="btn btn-danger">Delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+<!--            <nav aria-label="Page navigation example ">-->
+<!--                <ul class="pagination float-end mx-4">-->
+<!--                    <li th:class="|page-item ${currentPage==0 ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+(-1)}&size=${size}|}">Previous</a>-->
+<!--                    </li>-->
+
+<!--                    <th:block th:each="page, loop : ${totalPage}">-->
+<!--                        <li th:class="|page-item ${currentPage==loop.index?'active':''}|">-->
+<!--                            <a class="page-link" th:href="@{|?page=${loop.index}&size=${size}|}" th:text="${loop.count}"></a>-->
+<!--                        </li>-->
+<!--                    </th:block>-->
+
+<!--                    <li th:class="|page-item ${(currentPage+1)== totalPage.length ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+1}&size=${size}|}">Next</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+            <!-- /.card-body -->
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

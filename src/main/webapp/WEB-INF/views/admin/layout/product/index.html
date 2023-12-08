@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ben Juice</title>
+</head>
+<body>
+
+    <main class="content" th:fragment="product">
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Product Management</h3>
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="/product/add">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add new Product</button>
+                        </a>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 fst-italic" type="search"
+                                   placeholder="Enter product's name... "
+                                   aria-label="Search"
+                                   name="query"
+                            >
+
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Modified Date</th>
+<!--                        <th>Stock</th>-->
+                        <th>Status</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+<!--                    <tbody>-->
+<!--                         <tr th:each="p, loop : ${products}">-->
+<!--                             <td th:text="${p.id}">demo 1</td>-->
+<!--                             <td th:text="${p.categoryName}"> demo AAA</td>-->
+<!--                             <td th:text="${p.name}">Lorem</td>-->
+<!--                             <td><img th:src="${p.imageUrl}" width="50" height="50"></td>-->
+<!--                             <td th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT') + ' vnđ'}" ></td>-->
+<!--                             <td th:text="${#dates.format(p.modifiedAt, 'dd/MM/yyyy')}"></td>-->
+<!--&lt;!&ndash;                             <td th:text="${p.stock}"></td>&ndash;&gt;-->
+<!--                             <td th:text="${p.status ? 'Active' : 'Not Active'}">False</td>-->
+<!--                             <td>-->
+<!--                                 <a th:href="@{/product/edit/{id}(id=${p.id})}">-->
+<!--                                    <i class="bi bi-pencil-square"></i>-->
+<!--                                 </a>-->
+<!--                             </td>-->
+<!--                             <td>-->
+<!--                                 <a th:href="@{/product/delete/{id}(id=${p.id})}"-->
+<!--                                    onclick="return confirm('Bạn thực sự muốn xóa sản phẩm này ?')">-->
+<!--                                     <i class="bi bi-trash text-danger"></i>-->
+<!--                                 </a>-->
+<!--                             </td>-->
+<!--                         </tr>-->
+<!--                    </tbody>-->
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+<!--            <nav aria-label="Page navigation example ">-->
+<!--                <ul class="pagination float-end mx-4">-->
+<!--                    <li th:class="|page-item ${currentPage==0 ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+(-1)}&size=${size}|}">Previous</a>-->
+<!--                    </li>-->
+
+<!--                    <th:block th:each="page, loop : ${totalPage}">-->
+<!--                        <li th:class="|page-item ${currentPage==loop.index?'active':''}|">-->
+<!--                            <a class="page-link" th:href="@{|?page=${loop.index}&size=${size}|}" th:text="${loop.count}"></a>-->
+<!--                        </li>-->
+<!--                    </th:block>-->
+
+<!--                    <li th:class="|page-item ${(currentPage+1)== totalPage.length ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+1}&size=${size}|}">Next</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

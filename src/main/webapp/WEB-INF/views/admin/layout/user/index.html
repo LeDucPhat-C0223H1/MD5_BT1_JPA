@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="content" th:fragment="user">
+
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">User Management</h3>
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid d-flex justify-content-end">
+<!--                        <a class="navbar-brand" href="#">-->
+<!--                            <button type="button" class="btn btn-success">+ Create new Account</button>-->
+<!--                        </a>-->
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 fst-italic" type="search"
+                                   placeholder="Enter search keywords... "
+                                   aria-label="Search"
+                                   name="query"
+                                   th:value="${query}"
+                            >
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Image</th>
+                        <th>FullName</th>
+                        <th>Birthday</th>
+                        <th>Phone</th>
+                        <th>Modified Date</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+<!--                    <tbody>-->
+<!--                    <tr th:each="u,loop : ${users}">-->
+<!--                        <td th:text="${u.id}">1</td>-->
+<!--                        <td th:text="${u.userName}">user1</td>-->
+
+<!--                        <td style="width: 10%"><img class="w-100" th:src="${u.avatarUrl}" alt="avartar"></td>-->
+
+<!--                        <td th:text="${u.fullName}"></td>-->
+
+<!--                        <td th:text="${#dates.format(u.birthday, 'dd/MM/yyyy')}"></td>-->
+<!--                        <td th:text="${u.phone}"></td>-->
+<!--                        <td th:text="${#dates.format(u.modifiedAt, 'dd/MM/yyyy')}"></td>-->
+<!--                        <td>-->
+<!--                            <a th:if="${u.status}" th:href="@{/user/toggle-status/{id}(id=${u.id})}"-->
+<!--                               onclick="return confirm('Bạn thực sự muốn khóa tài khoản này ?')"-->
+<!--                               class="btn btn-success">-->
+<!--                                    Active-->
+<!--                            </a>-->
+<!--                            <a th:unless="${u.status}" th:href="@{/user/toggle-status/{id}(id=${u.id})}"-->
+<!--                               onclick="return confirm('Bạn thực sự muốn mở khóa tài khoản này ?')"-->
+<!--                               class="btn btn-danger">-->
+<!--                                    Lock-->
+<!--                            </a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+                </table>
+
+            </div>
+<!--            <nav aria-label="Page navigation example ">-->
+<!--                <ul class="pagination float-end mx-4">-->
+<!--                    <li th:class="|page-item ${currentPage==0 ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+(-1)}&size=${size}|}">Previous</a>-->
+<!--                    </li>-->
+
+<!--                    <th:block th:each="page, loop : ${totalPage}">-->
+<!--                        <li th:class="|page-item ${currentPage==loop.index?'active':''}|">-->
+<!--                            <a class="page-link" th:href="@{|?query=${query}&page=${loop.index}&size=${size}|}" th:text="${loop.count}"></a>-->
+<!--                        </li>-->
+<!--                    </th:block>-->
+
+<!--                    <li th:class="|page-item ${(currentPage+1)== totalPage.length ? 'disabled' : '' }|">-->
+<!--                        <a class="page-link" th:href="@{|?query=${query}&page=${currentPage+1}&size=${size}|}">Next</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+            <!-- /.card-body -->
+        </div>
+
+    </div>
+
+</main>
+</body>
+</html>
